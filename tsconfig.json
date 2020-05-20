@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "target": "ES5",
+        "lib": [
+            "ES6"
+        ],
+        "strict": true,
+        "esModuleInterop": true,
+    },
+    "exclude": [
+        "node_modules",
+    ]
+}
