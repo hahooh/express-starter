@@ -1,9 +1,10 @@
-import express, { Request, Response, NextFunction } from 'express'
+import express, { Request, Response, NextFunction, Router } from 'express'
 import Config from './services/config'
 import Logger from './services/logger'
 import { Middlewares } from './middlewares/middlewares'
 import bodyParser from 'body-parser'
 import IError from './Errors/error'
+import Routers from './routers'
 
 class App {
     private readonly config = new Config()
@@ -12,10 +13,19 @@ class App {
     constructor() {
         Logger.intLogger(this.config)
         this.initMiddlewares()
+        this.initRouters()
+        this.errorHandler()
     }
 
     public run() {
         this.app.listen(this.config.port, () => Logger.log.info(`API running on port ${this.config.port}`))
+    }
+
+    private initRouters() {
+        Routers.forEach(router => {
+            const R = new router(this.config)
+            this.app.use(R.router)
+        })
     }
 
     private initMiddlewares() {
